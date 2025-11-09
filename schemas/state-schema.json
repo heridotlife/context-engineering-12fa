@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/state-schema.json",
+  "title": "12FA Agent State Schema",
+  "description": "Defines the agent state object structure for Factor 5 (Unify Execution/Business State). Separates exposed fields (to LLM) from isolated fields (stored separately).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "messages": {
+      "type": "array",
+      "description": "Conversational history exposed to LLM (trimmed/summarized as needed)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["system", "user", "assistant", "tool"]
+          },
+          "content": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tool name (for tool role)"
+          }
+        },
+        "required": ["role", "content"]
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Context summary (exposed selectively to LLM when context compressed)"
+    },
+    "context": {
+      "type": "object",
+      "description": "Scratchpad/session data (isolated by default, selective exposure to LLM)",
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "description": "Unique session identifier"
+        },
+        "session_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Local system date (YYYY-MM-DD)"
+        },
+        "session_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 datetime with timezone"
+        },
+        "session_timezone": {
+          "type": "string",
+          "description": "Timezone identifier (e.g., America/New_York, +05:30)"
+        },
+        "persona": {
+          "type": "string",
+          "description": "Active persona identifier"
+        },
+        "task": {
+          "type": "string",
+          "description": "Current task objective"
+        },
+        "plan": {
+          "type": "array",
+          "description": "Task execution plan (steps)",
+          "items": { "type": "string" }
+        },
+        "token_usage": {
+          "type": "object",
+          "description": "Token tracking for context health",
+          "properties": {
+            "input": { "type": "number" },
+            "output": { "type": "number" },
+            "total": { "type": "number" },
+            "budget": { "type": "number" }
+          },
+          "required": ["total", "budget"]
+        }
+      },
+      "required": ["session_date", "persona", "task"]
+    },
+    "tool_outputs": {
+      "type": "object",
+      "description": "Isolated: Raw tool results with summaries. Only summaries exposed to LLM.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "description": "Full tool output (isolated, not sent to LLM)"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Compressed summary for LLM context"
+          },
+          "tokens": {
+            "type": "number",
+            "description": "Approximate token count"
+          }
+        }
+      }
+    },
+    "images": {
+      "type": "array",
+      "description": "Isolated: Binary/base64 image data (not sent to LLM unless explicitly requested)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "format": { "type": "string", "enum": ["png", "jpg", "svg", "base64"] },
+          "url": { "type": "string", "format": "uri" },
+          "data": { "type": "string", "description": "Base64-encoded data (optional)" }
+        },
+        "required": ["id", "format"]
+      }
+    },
+    "large_artifacts": {
+      "type": "object",
+      "description": "Isolated: Large files, logs, documents (stored as references, not in LLM context)",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "size": { "type": "number", "description": "Size in bytes" },
+          "hash": { "type": "string", "description": "Content hash (SHA-256)" },
+          "summary": { "type": "string", "description": "Summary for LLM (if needed)" }
+        },
+        "required": ["path"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Error log (isolated, summarized for LLM)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "type": { "type": "string" },
+          "message": { "type": "string" },
+          "stack": { "type": "string", "description": "Full stack trace (isolated)" },
+          "context": { "type": "object", "description": "Additional error context" }
+        },
+        "required": ["timestamp", "message"]
+      }
+    },
+    "state_checkpoints": {
+      "type": "array",
+      "description": "Serialized state snapshots for recovery/rollback",
+      "items": {
+        "type": "object",
+        "properties": {
+          "checkpoint_id": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "state": { "type": "object", "description": "Snapshot of state at checkpoint" },
+          "metadata": { "type": "object", "description": "Checkpoint metadata (step, reason)" }
+        },
+        "required": ["checkpoint_id", "timestamp", "state"]
+      }
+    },
+    "ui": {
+      "type": "array",
+      "description": "UI messages for generative UI patterns (optional)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["text", "component", "action"] },
+          "content": {},
+          "metadata": { "type": "object" }
+        },
+        "required": ["type", "content"]
+      }
+    }
+  },
+  "required": ["messages", "context"],
+  "examples": [
+    {
+      "messages": [
+        { "role": "user", "content": "Build user auth API" },
+        { "role": "assistant", "content": "I'll design a secure authentication endpoint..." }
+      ],
+      "summary": "",
+      "context": {
+        "session_id": "abc123",
+        "session_date": "2025-11-09",
+        "session_timestamp": "2025-11-09T10:30:00-05:00",
+        "persona": "backend-architect",
+        "task": "Build user authentication API endpoint",
+        "plan": ["Research existing auth", "Design schema", "Implement endpoint"],
+        "token_usage": { "input": 234, "output": 156, "total": 390, "budget": 8000 }
+      },
+      "tool_outputs": {
+        "search_auth_patterns": {
+          "raw": "...full search results...",
+          "summary": "Found JWT + bcrypt pattern commonly used",
+          "tokens": 180
+        }
+      },
+      "images": [],
+      "large_artifacts": {},
+      "errors": []
+    }
+  ]
+}

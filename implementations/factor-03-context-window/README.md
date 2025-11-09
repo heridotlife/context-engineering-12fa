@@ -27,7 +27,7 @@ Factor 3 emphasizes **active context management** rather than passive accumulati
 | `context-trimming.md` | Message pruning rules | Before every LLM call |
 | `context-isolation.md` | State schema (exposed/isolated) | Session init |
 | `health-monitoring.md` | `context_health_check()` | Session init, before LLM calls |
-| `temporal-awareness.md` | Date/time handling | Session init |
+| `temporal-awareness.md` | Date/time + **auto web search** for latest info | Session init, query parsing |
 | `observability.md` | Token tracking, traces | On-demand (trace=true) |
 
 ---

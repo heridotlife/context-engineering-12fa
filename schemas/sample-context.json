@@ -11,5 +11,5 @@
     "fix implemented with minimal diff",
     "all tests green"
   ],
-  "spec_version": "0.2.2"
+  "spec_version": "0.4.0"
 }

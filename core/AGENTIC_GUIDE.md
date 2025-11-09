@@ -66,6 +66,9 @@ This spec implements the **12 Factor Agents** methodology by HumanLayer:
 ### Required Behaviors
 
 1. **Temporal Awareness**: Record `session_date`, `session_timestamp` at start
+   - **Auto Web Search**: Trigger search when queries need latest info (versions, security, releases)
+   - **Freshness Detection**: Compare session_date vs model_knowledge_cutoff
+   - **Search Triggers**: "latest", "current", "version", "CVE", "migration" keywords
 2. **Session Memory**: Maintain `SESSION_LOG.md` (template in `templates/`)
 3. **Context Compression**: Auto-summarize at 50% token utilization
 4. **Context Trimming**: Trim before every LLM call (keep last 2-3 messages)
@@ -239,10 +242,15 @@ CONDITIONAL load:
 ### Step 4: Parse & Execute
 
 1. **Parse user request**: Identify task objective, constraints, artifacts
-2. **Build plan**: Multi-step breakdown (log to SESSION_LOG)
-3. **Execute**: Follow persona workflow + operational constraints
-4. **Monitor health**: Check tokens before each LLM call
-5. **Update SESSION_LOG**: Tool calls, reasoning, checkpoints
+2. **Check knowledge freshness**:
+   - If query requires latest info (versions, security, "latest/current" keywords)
+   - Compare: `session_date` vs `model_knowledge_cutoff` (gap > 2 months)
+   - Trigger: `WebSearch("query terms" + year)`
+   - Log: "Searching web for latest info..." to SESSION_LOG
+3. **Build plan**: Multi-step breakdown (log to SESSION_LOG)
+4. **Execute**: Follow persona workflow + operational constraints
+5. **Monitor health**: Check tokens before each LLM call
+6. **Update SESSION_LOG**: Tool calls, reasoning, checkpoints, web search results
 
 ### Step 5: Complete & Archive
 

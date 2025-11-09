@@ -21,30 +21,256 @@ A **reusable template** for building reliable, production-ready AI agents that c
 
 ## Quick Start
 
-### 1. For AI Agents (Claude, Gemini, Copilot)
+> **📋 For detailed instructions, see [INSTALLATION.md](INSTALLATION.md)**
+
+### 1. Copy to Your Project
+
+**Essential files** (must copy):
 
 ```bash
-# Clone/copy this template into your project
-git clone https://github.com/yourusername/context-engineering-12fa.git
+# Option A: Copy everything to .agentic/ subdirectory (recommended)
+cd your-project/
+cp -r /path/to/context-engineering-12fa/.agentic
 
-# Your AI will automatically load:
-# 1. CLAUDE.md → core/AGENTIC_GUIDE.md
-# 2. Select persona from personas/PERSONA_CATALOG.md
-# 3. Initialize SESSION_LOG.md from templates/
-# 4. Execute following 12 Factor Agents principles
+# Option B: Copy to project root
+cd your-project/
+cp -r /path/to/context-engineering-12fa/{core,implementations,personas,templates} .
+cp /path/to/context-engineering-12fa/CLAUDE.md .  # Or GEMINI.md or COPILOT.md
+```
+
+**Minimal installation** (4 directories + 1 file):
+```
+your-project/
+├── CLAUDE.md              ← Platform binding (choose one)
+├── core/                  ← Master spec
+├── implementations/       ← 12FA implementations
+├── personas/              ← 88 agent personas
+└── templates/             ← SESSION_LOG template
+```
+
+**Optional but recommended**:
+```
+your-project/
+├── schemas/               ← Validation schemas
+└── 12-factor-agents/      ← Reference docs
 ```
 
 ### 2. Customize for Your Project
 
-```bash
-# Update project-specific settings in core/AGENTIC_GUIDE.md:
-- Language/Framework
-- Build commands
-- Test commands
-- Common operations
+Edit `core/AGENTIC_GUIDE.md` section 7:
 
-# Add custom personas to personas/agents/ (optional)
-# Extend implementations/ with project-specific patterns
+```markdown
+## 7. Project Customization
+
+| Field | Your Value |
+|-------|------------|
+| Language/Framework | Python 3.12 + FastAPI |
+| Build Tool | uv + ruff |
+| Test Command | pytest tests/ |
+| Common Commands | make dev, make test |
+```
+
+**Optional**: Add custom personas to `personas/agents/`
+
+### 3. Verify Installation
+
+```bash
+# Check AI can load the spec
+# For Claude Code:
+claude --help  # Should see CLAUDE.md loaded
+
+# Verify directory structure
+ls core/AGENTIC_GUIDE.md
+ls personas/PERSONA_CATALOG.md
+ls templates/SESSION_LOG.md
+```
+
+---
+
+## Installation Guide
+
+### What to Copy
+
+#### ✅ **REQUIRED** (Core functionality)
+
+| Path | Size | Purpose | Required? |
+|------|------|---------|-----------|
+| `CLAUDE.md` (or `GEMINI.md` / `COPILOT.md`) | 2 KB | Platform binding | ✅ **YES** (pick one) |
+| `core/` | 36 KB | Master spec + design decisions | ✅ **YES** |
+| `implementations/` | 20 KB | 12FA factor implementations | ✅ **YES** |
+| `personas/` | 748 KB | Persona catalog + 86 agent files | ✅ **YES** |
+| `templates/` | 4 KB | SESSION_LOG template | ✅ **YES** |
+
+**Total required**: ~810 KB (~95 files)
+
+#### 📦 **OPTIONAL** (Recommended)
+
+| Path | Size | Purpose | Optional? |
+|------|------|---------|-----------|
+| `schemas/` | 28 KB | Validation schemas (5 files) | ⚠️ Recommended |
+| `12-factor-agents/` | 3 KB | 12FA reference docs | ⚠️ Recommended |
+
+**Total optional**: ~31 KB (~6 files)
+
+#### ❌ **DO NOT COPY** (Template-specific)
+
+| Path | Reason |
+|------|--------|
+| `README.md` | This is the template's README, not yours |
+| `CHANGELOG.md` | Template version history |
+| `MIGRATION_SUMMARY.md` | Template migration docs |
+| `AGENTIC_GUIDE.md.old` | Backup file |
+| `SESSION_LOG.md` (root) | Active session file (use template from `templates/`) |
+| `.git/` | Template git history |
+| `scripts/` | Template maintenance scripts |
+| `examples/` | Empty placeholder (add your own) |
+
+---
+
+### Installation Methods
+
+#### Method 1: Subdirectory Install (Recommended)
+
+Keep agent specs isolated in `.agentic/` subdirectory:
+
+```bash
+cd your-project/
+
+# Copy essential files
+mkdir -p .agentic
+cp -r /path/to/template/core .agentic/
+cp -r /path/to/template/implementations .agentic/
+cp -r /path/to/template/personas .agentic/
+cp -r /path/to/template/templates .agentic/
+cp /path/to/template/CLAUDE.md .agentic/
+
+# Optional: Copy schemas
+cp -r /path/to/template/schemas .agentic/
+
+# Create platform binding at root
+ln -s .agentic/CLAUDE.md CLAUDE.md
+# Or copy: cp .agentic/CLAUDE.md .
+```
+
+**Result**:
+```
+your-project/
+├── CLAUDE.md → .agentic/CLAUDE.md
+├── .agentic/
+│   ├── core/
+│   ├── implementations/
+│   ├── personas/
+│   ├── templates/
+│   └── schemas/
+├── src/
+└── tests/
+```
+
+**Pros**: Clean separation, easy updates, portable
+**Cons**: One extra directory level
+
+---
+
+#### Method 2: Root Install (Simple)
+
+Copy directly to project root:
+
+```bash
+cd your-project/
+
+# Copy essential files
+cp -r /path/to/template/core .
+cp -r /path/to/template/implementations .
+cp -r /path/to/template/personas .
+cp -r /path/to/template/templates .
+cp /path/to/template/CLAUDE.md .
+
+# Optional
+cp -r /path/to/template/schemas .
+```
+
+**Result**:
+```
+your-project/
+├── CLAUDE.md
+├── core/
+├── implementations/
+├── personas/
+├── templates/
+├── schemas/
+├── src/
+└── tests/
+```
+
+**Pros**: Simpler structure, direct access
+**Cons**: Mixes template with your code
+
+---
+
+#### Method 3: Git Submodule (Advanced)
+
+Keep template as submodule for easy updates:
+
+```bash
+cd your-project/
+git submodule add https://github.com/yourusername/context-engineering-12fa.git .agentic
+git submodule update --init --recursive
+
+# Create binding at root
+ln -s .agentic/CLAUDE.md CLAUDE.md
+```
+
+**Update template**:
+```bash
+cd .agentic
+git pull origin main
+cd ..
+git commit -am "Update .agentic submodule"
+```
+
+**Pros**: Easy updates, version control
+**Cons**: More complex setup, requires git
+
+---
+
+### Post-Installation
+
+#### 1. Update Project Settings
+
+Edit `core/AGENTIC_GUIDE.md` section 7:
+
+```markdown
+## 7. Project Customization
+
+| Field | Value |
+|-------|-------|
+| Language/Framework | [Your stack: Python/Node/Rust/etc] |
+| Build Tool | [Your tool: npm/cargo/make/etc] |
+| Test Command | [Your command: pytest/jest/etc] |
+| Common Commands | [Your commands] |
+```
+
+#### 2. Verify Installation
+
+```bash
+# Check core files exist
+ls core/AGENTIC_GUIDE.md
+ls personas/PERSONA_CATALOG.md
+ls templates/SESSION_LOG.md
+
+# Check platform binding
+cat CLAUDE.md | grep "core/AGENTIC_GUIDE.md"
+
+# Test with AI
+# For Claude Code: Open project, AI should load CLAUDE.md automatically
+```
+
+#### 3. Optional: Add .gitignore
+
+```bash
+# Add to your .gitignore
+echo ".session-archive/" >> .gitignore
+echo "SESSION_LOG.md" >> .gitignore  # Active session logs
 ```
 
 ---
@@ -115,6 +341,7 @@ Production-ready context window management:
 - **Auto-Summarization**: Trigger at 50% token usage
 - **Proactive Trimming**: Before every LLM call
 - **Health Monitoring**: Continuous context quality checks
+- **🌐 Temporal Awareness + Auto Web Search**: Detect outdated knowledge, trigger web search for latest versions/security/releases
 
 **Location**: `implementations/factor-03-context-window/`
 
