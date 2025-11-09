@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/context-contract.json",
+  "title": "12FA Context Contract",
+  "description": "Starter JSON Schema describing the input contract for agent runs under the 12-Factor Agent guide.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "persona": {
+      "type": "string",
+      "description": "Selected persona identifier. Must correspond to a file name (without extension) inside ./agents (e.g., 'prompt-engineer', 'tdd-orchestrator', 'security-auditor'). No local fallback personas; choose most specific role."
+    },
+    "task": {
+      "type": "string",
+      "description": "Primary goal or problem statement in one or two sentences."
+    },
+    "intent": {
+      "type": "string",
+      "description": "Optional high-level intent classification (e.g., implement, refactor, review, plan)."
+    },
+    "target_files": {
+      "type": "array",
+      "description": "Candidate files or globs to modify or inspect.",
+      "items": { "type": "string" }
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Operational constraints that must be honored.",
+      "additionalProperties": true,
+      "properties": {
+        "performance": { "type": "string" },
+        "security": { "type": "string" },
+        "style": { "type": "string" },
+        "budget": { "type": ["string", "number"] }
+      }
+    },
+    "allow_random": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, allows non-deterministic choices; otherwise outputs must be deterministic."
+    },
+    "verbosity": {
+      "type": "string",
+      "enum": ["brief", "normal", "detailed"],
+      "default": "normal",
+      "description": "Controls output depth and explanation level."
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["claude", "gemini", "copilot", "other"],
+      "description": "Execution/runtime target to apply adapter behavior if needed."
+    },
+    "trace": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, emit an auditable meta trace per the Observability factor (when safe to expose)."
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Inline context artifacts provided at runtime (snippets, configs, partial files).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "description": "Logical or repo-relative path (if applicable)." },
+          "type": { "type": "string", "description": "mime or logical type (e.g., 'text/markdown', 'code', 'config')." },
+          "content": { "type": "string" }
+        },
+        "required": ["content"]
+      }
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Objective acceptance criteria for the task."
+    },
+    "spec_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+",
+      "description": "Version of the AGENTIC_GUIDE spec the request expects (e.g., '0.2.2')."
+    }
+  },
+  "required": ["task"],
+  "examples": [
+    {
+      "persona": "prompt-engineer",
+      "task": "Draft a system prompt to normalize API spec into OpenAPI and validate with schema checker.",
+      "target_files": ["docs/api.md", "schemas/openapi.json"],
+      "constraints": { "style": "concise", "security": "no PII in examples" },
+      "verbosity": "brief",
+      "platform": "copilot",
+      "trace": false,
+      "success_criteria": ["schema validates", "no leaking secrets"],
+  "spec_version": "0.2.3"
+    }
+  ]
+}

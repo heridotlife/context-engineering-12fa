@@ -1,0 +1,15 @@
+{
+  "persona": "tdd-orchestrator",
+  "task": "Add a failing test for user login rate limiting and implement the minimal fix.",
+  "target_files": ["src/auth/", "tests/auth/login_rate_limit.test.ts"],
+  "constraints": { "performance": "<10ms added p95", "security": "no logging of secrets" },
+  "verbosity": "normal",
+  "platform": "copilot",
+  "trace": false,
+  "success_criteria": [
+    "test added and failing first",
+    "fix implemented with minimal diff",
+    "all tests green"
+  ],
+  "spec_version": "0.2.2"
+}
