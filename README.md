@@ -38,13 +38,14 @@ cp -r /path/to/context-engineering-12fa/{core,implementations,personas,templates
 cp /path/to/context-engineering-12fa/CLAUDE.md .  # Or GEMINI.md or COPILOT.md
 ```
 
-**Minimal installation** (4 directories + 1 file):
+**Minimal installation** (5 directories + 1 file):
 ```
 your-project/
 ├── CLAUDE.md              ← Platform binding (choose one)
 ├── core/                  ← Master spec
 ├── implementations/       ← 12FA implementations
 ├── personas/              ← 88 agent personas
+├── prompts/               ← Structured prompt templates + examples
 └── templates/             ← SESSION_LOG template
 ```
 
@@ -71,6 +72,10 @@ Edit `core/AGENTIC_GUIDE.md` section 7:
 ```
 
 **Optional**: Add custom personas to `personas/agents/`
+
+Add structured prompt templates:
+- Fill `prompts/base_prompts/system.tpl.md` with your Background, Tools, Output format
+- Create task-specific templates under `prompts/examples/`
 
 ### 3. Verify Installation
 
@@ -257,6 +262,7 @@ Edit `core/AGENTIC_GUIDE.md` section 7:
 ls core/AGENTIC_GUIDE.md
 ls personas/PERSONA_CATALOG.md
 ls templates/SESSION_LOG.md
+ls prompts/base_prompts/system.tpl.md
 
 # Check platform binding
 cat CLAUDE.md | grep "core/AGENTIC_GUIDE.md"

@@ -1,0 +1,18 @@
+project:
+  name: {{PROJECT_NAME}}
+  stack: {{STACK}}
+  kb_path: kb
+  log_level: info
+
+model:
+  provider: {{PROVIDER}}
+  model_id: {{MODEL}}
+  max_tokens: {{MAX_TOKENS}}
+
+agents:
+  orchestrator: manifests/orchestrator.yaml
+  researcher: manifests/researcher.yaml
+  verifier: manifests/verifier.yaml
+
+tools:
+  specs_dir: toolspecs/  # optional, if you declare tools separately

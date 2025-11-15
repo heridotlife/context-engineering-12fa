@@ -7,13 +7,14 @@
 - Session initialized (`templates/SESSION_LOG.md` created)
 - Context health check performed
 - Placeholder values replaced in manifests
+ - Prompt template sections present (<BACKGROUND>, <INSTRUCTIONS>, Tool Guidance, Output)
 
 ## Validation Steps
 1. Verify manifests schema compliance
 2. Confirm environment variables loaded (.env)
 3. Check markdown KB path exists (`{{KB_PATH}}`)
 4. Ensure logging sink configured
-5. Run schema validation tests
+ 5. Validate prompt output against JSON schema (if provided)
 
 ## Remediation
 - Missing persona → halt & request selection
