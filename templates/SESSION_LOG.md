@@ -31,6 +31,19 @@
 
 ---
 
+## Triadic Handoff (optional)
+
+| Stage | Owner | Artefact | Status |
+|-------|-------|----------|--------|
+| Brief | User | `handoffs/mission.md` or Task section | [ ] Pending / [ ] Complete |
+| Plan | GPT-5 Codex | `handoffs/plan.md`, context bundle, Claude prompt | [ ] Pending / [ ] Complete |
+| Execute | Claude Code Sonne 4.5 | `handoffs/claude_output.md` | [ ] Pending / [ ] Complete |
+| Review | GPT-5 Codex + User | Acceptance notes in SESSION_LOG | [ ] Pending / [ ] Complete |
+
+- **Notes**: Capture blockers, deviations, or escalations related to the triad handoff here.
+
+---
+
 ## Reasoning
 
 - **Decision**: Why tool X was chosen over tool Y

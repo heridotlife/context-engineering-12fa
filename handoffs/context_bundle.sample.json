@@ -1,0 +1,33 @@
+{
+  "session_id": "TRIAD-2025-11-10-01",
+  "repo_state": {
+    "branch": "main",
+    "head": "<commit-sha>",
+    "dirty": true
+  },
+  "files": [
+    {
+      "path": "playbooks/triadic-cycle.md",
+      "purpose": "Reference for triadic process",
+      "excerpt": "..."
+    },
+    {
+      "path": "implementations/factor-10-focused-agents/triad-orchestration.md",
+      "purpose": "Focused-agent alignment",
+      "excerpt": "..."
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "pytest tests/test_triads.py",
+      "reason": "Validate new orchestration logic",
+      "expected": "All tests pass"
+    }
+  ],
+  "outputs_expected": [
+    "Updated documentation",
+    "New automation script",
+    "Test results"
+  ],
+  "notes": "Summaries trimmed to stay under 6 KB."
+}

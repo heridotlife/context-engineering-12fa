@@ -1,0 +1,15 @@
+id: {{RESEARCHER_ID}}
+role: researcher
+model: {{MODEL}}
+allowed_tools:
+  - md_lookup
+  - web_search
+  - parse_document
+  - classify
+memory_policy:
+  ttl_hours: {{TTL_RESEARCH}}
+input_schema: {{RESEARCH_INPUT_SCHEMA}}
+output_schema: {{RESEARCH_OUTPUT_SCHEMA}}
+knowledge_base:
+  path: {{KB_PATH}}
+  max_sections: {{MAX_SECTIONS}}

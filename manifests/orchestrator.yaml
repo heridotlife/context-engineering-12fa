@@ -1,0 +1,14 @@
+id: {{ORCH_ID}}
+role: orchestrator
+model: {{MODEL}}
+allowed_tools:
+  - plan_tasks
+  - dispatch_agent
+  - aggregate_results
+memory_policy:
+  ttl_hours: {{TTL_ORCH}}
+input_schema: {{ORCH_INPUT_SCHEMA}}
+output_schema: {{ORCH_OUTPUT_SCHEMA}}
+logging:
+  level: {{LOG_LEVEL}}
+  sink: file

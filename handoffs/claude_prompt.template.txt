@@ -1,0 +1,20 @@
+SYSTEM PROMPT (use prompts/claude/triad-executor.md template)
+--------------------------------------------------------------
+<Insert rendered system prompt with mission summary, constraints, expectations>
+
+USER PAYLOAD
+------------
+# Execution Plan
+1. Step 1 …
+2. Step 2 …
+
+# Context Bundle
+- Branch: main @ <commit-sha>
+- Key files:
+  - `path/to/file.py` – reason
+  - `docs/guide.md` – reason
+- Commands to run:
+  - `pytest tests/test_triads.py`
+
+# Additional Notes
+- Token budget, manual approvals, cautions, anything else Claude must know.

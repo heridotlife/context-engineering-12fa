@@ -1,0 +1,28 @@
+{
+  "session_id": "TRIAD-20251110-01",
+  "repo": "context-engineering-12fa",
+  "workspace_dir": "projects/astro-mdx-blog",
+  "branch": "main",
+  "existing_assets": [
+    "playbooks/triadic-cycle.md",
+    "implementations/factor-10-focused-agents/triad-orchestration.md",
+    "templates/SESSION_LOG.md"
+  ],
+  "required_integrations": [
+    "@astrojs/mdx",
+    "@astrojs/tailwind",
+    "@astrojs/cloudflare",
+    "Playwright"
+  ],
+  "required_scripts": {
+    "lint": "npm run lint",
+    "typecheck": "npm run check",
+    "build": "npm run build",
+    "test": "npm run test:e2e"
+  },
+  "deployment_notes": "Target Cloudflare Pages. Need wrangler.toml or project config if using adapter.",
+  "open_questions": [
+    "Select MDX presentation framework (e.g., custom layout vs. rehype-slides)",
+    "Decide on styling system (Tailwind vs. CSS modules)"
+  ]
+}

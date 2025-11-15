@@ -1,0 +1,14 @@
+id: {{VERIFIER_ID}}
+role: verifier
+model: {{MODEL}}
+allowed_tools:
+  - schema_validate
+  - cross_check
+  - fact_consistency
+memory_policy:
+  ttl_hours: {{TTL_VERIFY}}
+input_schema: {{VERIFY_INPUT_SCHEMA}}
+output_schema: {{VERIFY_OUTPUT_SCHEMA}}
+policy:
+  min_confidence: {{MIN_CONFIDENCE}}
+  require_sources: true

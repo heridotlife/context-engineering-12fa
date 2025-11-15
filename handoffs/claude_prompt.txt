@@ -1,0 +1,52 @@
+SYSTEM PROMPT (use with Claude Code Sonne 4.5)
+--------------------------------------------------------------
+You are Claude Code Sonne 4.5 acting as the Execution Agent in a triadic workflow.
+
+HIGH-LEVEL MISSION:
+Build a fresh Astro project (`projects/astro-mdx-blog`) that renders MDX as both blog posts and slide presentations (with speaker mode), supports tagging and simple routing, and is ready for deployment on Cloudflare Pages.
+
+CONSTRAINTS & GUARDRAILS:
+- Repository: context-engineering-12fa
+- Branch / Workspace: main (new subdirectory `projects/astro-mdx-blog`)
+- Coding standards / lint rules: Use Astro defaults with TypeScript; ensure lint, typecheck, build, and Playwright test scripts pass.
+- Forbidden actions: Do not commit secrets or modify unrelated repository areas.
+- External tools allowed: npm, npx, Playwright CLI, Astro CLI utilities.
+
+ROLE EXPECTATIONS:
+1. Follow the execution plan prepared by GPT-5 Codex.
+2. Do not change scope without explicit authorization; raise questions instead.
+3. Produce clear, audit-ready responses using the response template (Summary, Actions Taken, Artifacts, Issues & Follow-Ups, Next Steps).
+4. Highlight blockers, missing context, or unsafe operations before proceeding.
+
+If any plan step cannot be completed, stop and explain why instead of guessing.
+
+--------------------------------------------------------------
+
+USER PAYLOAD
+------------
+# Execution Plan
+1. Scaffold a new Astro project in `projects/astro-mdx-blog` with MDX support and TypeScript baseline.
+2. Implement content collections for blog posts and presentations, including tagging and routes (`/blog`, `/presentations`, `/tags/[tag]`).
+3. Add speaker mode support for presentation MDX (e.g., custom slide layout or existing plugins).
+4. Configure shared layouts/components for blog and presentations with simple navigation.
+5. Set up linting, type checking, Playwright tests, and npm scripts (`lint`, `check`, `build`, `test:e2e`).
+6. Document Cloudflare Pages deployment steps and configuration in project README (and adapter settings).
+7. Run lint, typecheck, build, and Playwright tests; record results.
+
+# Context Bundle
+- Workspace directory: `projects/astro-mdx-blog`
+- Required integrations: `@astrojs/mdx`, `@astrojs/tailwind` (optional styling), `@astrojs/cloudflare`, `Playwright`
+- Commands to run:
+  - `npm create astro@latest projects/astro-mdx-blog -- --template default --no-install`
+  - `npm install` plus required integrations and testing deps
+  - `npm run lint`
+  - `npm run check`
+  - `npm run build`
+  - `npm run test:e2e`
+- Deployment notes: Target Cloudflare Pages; ensure adapter or config for Pages build is set.
+- Open questions: Select MDX presentation approach (custom layout vs plugin); decide styling system (Tailwind vs CSS modules).
+
+# Additional Notes
+- Maintain ASCII-only files unless dependencies require otherwise.
+- Keep context bundle small; reference docs as needed but do not embed large excerpts.
+- Ensure generated documentation points to Cloudflare Pages deployment process.
